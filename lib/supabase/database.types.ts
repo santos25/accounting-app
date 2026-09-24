@@ -10,7 +10,7 @@ export type Json =
 
 export type Database = {
   __InternalSupabase: {
-    PostgrestVersion: "13.0.5"
+    PostgrestVersion: "14.5"
   }
   public: {
     Tables: {
