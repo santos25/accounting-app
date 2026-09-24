@@ -88,6 +88,7 @@ export function DeclarationForm({
   const [state, formAction, pending] = useActionState(action, initialState)
   useActionFeedback(state, onSuccess)
   const [status, setStatus] = useState<DeclarationStatus>(declaration?.status ?? "PENDIENTE")
+  const [selectedClientId, setSelectedClientId] = useState("")
 
   const err = (name: string) => fieldError(state, name)
   const fixedClientId = declaration?.client_id ?? clientId
@@ -100,7 +101,8 @@ export function DeclarationForm({
         ) : (
           <Field data-invalid={Boolean(err("client_id")) || undefined}>
             <FieldLabel htmlFor="client_id">Cliente</FieldLabel>
-            <Select name="client_id" required>
+            <input type="hidden" name="client_id" value={selectedClientId} />
+            <Select value={selectedClientId} onValueChange={setSelectedClientId}>
               <SelectTrigger id="client_id" className="w-full">
                 <SelectValue placeholder="Selecciona un cliente" />
               </SelectTrigger>
@@ -151,8 +153,8 @@ export function DeclarationForm({
 
         <Field>
           <FieldLabel htmlFor="status">Estado</FieldLabel>
+          <input type="hidden" name="status" value={status} />
           <Select
-            name="status"
             value={status}
             onValueChange={(v) => setStatus(v as DeclarationStatus)}
           >

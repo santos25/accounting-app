@@ -1,6 +1,6 @@
 "use client"
 
-import { useActionState, useMemo } from "react"
+import { useActionState, useMemo, useState } from "react"
 import { Loader2Icon } from "lucide-react"
 import { createClientAction, updateClientAction } from "@/app/(dashboard)/clientes/actions"
 import { Button } from "@/components/ui/button"
@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import type { ClientDetail } from "@/lib/data/clients"
-import { DOCUMENT_TYPES } from "@/lib/domain"
+import { DOCUMENT_TYPES, type DocumentType } from "@/lib/domain"
 import type { ActionState } from "@/lib/validation"
 import { fieldError, useActionFeedback } from "./form-feedback"
 
@@ -43,6 +43,7 @@ export function ClientForm({
   const [state, formAction, pending] = useActionState(action, initialState)
   useActionFeedback(state, onSuccess)
   const isEdit = Boolean(client)
+  const [documentType, setDocumentType] = useState<DocumentType>(client?.document_type ?? "CC")
 
   const err = (name: string) => fieldError(state, name)
 
@@ -59,7 +60,8 @@ export function ClientForm({
           <div className="grid grid-cols-[7rem_1fr] gap-3">
             <Field>
               <FieldLabel htmlFor="document_type">Tipo</FieldLabel>
-              <Select name="document_type" defaultValue={client?.document_type ?? "CC"}>
+              <input type="hidden" name="document_type" value={documentType} />
+              <Select value={documentType} onValueChange={(v) => setDocumentType(v as DocumentType)}>
                 <SelectTrigger id="document_type" className="w-full">
                   <SelectValue />
                 </SelectTrigger>
