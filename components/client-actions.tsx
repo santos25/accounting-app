@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { PencilIcon, PlusIcon, Trash2Icon } from "lucide-react"
 import { toast } from "sonner"
 import { deleteClientAction } from "@/app/(dashboard)/clientes/actions"
@@ -72,6 +73,7 @@ export function EditClientButton({ client }: { client: ClientDetail }) {
 
 export function DeleteClientButton({ id, name }: { id: string; name: string }) {
   const [open, setOpen] = useState(false)
+  const router = useRouter()
   return (
     <>
       <Button size="icon-sm" variant="ghost" aria-label="Eliminar cliente" onClick={() => setOpen(true)}>
@@ -87,7 +89,10 @@ export function DeleteClientButton({ id, name }: { id: string; name: string }) {
             await deleteClientAction(id)
           } catch {
             toast.error("No se pudo eliminar el cliente")
+            return
           }
+          toast.success("Cliente eliminado")
+          router.replace("/clientes")
         }}
       />
     </>

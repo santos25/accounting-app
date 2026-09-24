@@ -101,5 +101,4 @@ export async function deleteClientAction(id: string) {
   const { error } = await supabase.from("clients").delete().eq("id", id)
   if (error) throw new Error(error.message)
   revalidatePath("/", "layout")
-  redirect("/clientes")
 }
