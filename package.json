@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "db:link": "supabase link",
+    "db:push": "supabase db push --include-seed",
+    "db:types": "supabase gen types typescript --linked --schema public > lib/supabase/database.types.ts",
+    "import:excel": "tsx scripts/import-excel.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
